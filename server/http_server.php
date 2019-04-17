@@ -16,6 +16,8 @@ $http->on('WorkerStart', function(swoole_server $server, $worker_id){
 });
 
 $http->on('request', function($request, $response) use ($http){
+  	//$_SERVER = [];
+  //	if(isset($_SERVER)){unset($_SERVER);}
 	if(isset($request->server)){
 		foreach ($request->server as $key => $value) {
 			$_SERVER[strtoupper($key)] = $value;
@@ -27,17 +29,13 @@ $http->on('request', function($request, $response) use ($http){
 			$_SERVER[strtoupper($key)] = $value;
 		}
 	}
-
-	if(!empty($_GET)){
-		unset($_GET);
-	}
-
+	$_GET = [];
 	if(isset($request->get)){
 		foreach ($request->get as $key => $value) {
 			$_GET[$key] = $value;
 		}
 	}
-
+	$_POST = [];
 	if(isset($request->post)){
 		foreach ($request->post as $key => $value) {
 			$_POST[$key] = $value;
@@ -52,11 +50,11 @@ $http->on('request', function($request, $response) use ($http){
 	}catch(\Exception $e){
 
 	}
-	echo request()->action().PHP_EOL;
+	//echo request()->action().PHP_EOL;
 	$res = ob_get_contents();
 	ob_end_clean();
 	$response->end($res);
-	$http->close($response->fd);
+	//$http->close($response->fd);
 });
 
 $http->start();
