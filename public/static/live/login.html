@@ -98,16 +98,29 @@
 				//url = "http://singwa.swoole.com:8811?s=index/login&phone_num="+phone_num;
                 url = "http://192.168.23.101:9502?s=Index/Send/index&phone_num="+phone_num;
 				$(this).html('已发送').attr('disabled', true);
-				// $.post()
-				$.get(url, function (data) {
+            	$.ajax({url:'http://192.168.23.101:9502?s=Index/Send/index',type: 'get',dataType: 'json', data:{phone_num:phone_num}}).done(function(data){
+					console.log(data);
+					alert(data.msg);
+				});
+             	//$.get('http://192.168.23.101:9502?s=Index/Send/index',{phone_num: phone_num}).done(function(data){
+					//console.log(data);
+					//data = eval( "(" + data + ")" );
+                    //alert(data.msg);
+				//});
+				//$.get(url, function (data) {
 					// TODO: 将下面3行代码删除
-					if (data.status == 'ok') {
-						alert('发送完成');
-					}
+					//if (data.status == 'ok') {
+						//alert('发送完成');
+					//}
+                // alert(data.msg);
+                // var arr = JSON.stringify( data );
+                  //console.log(data);
+                  //alert(data[0]['msg']);
+                //  alert(data.msg);
 					// if (result.status != 'ok') {
 					// 	alert('网络错误');
 					// }
-				});
+				//});
 			});
 
 			// 提交表单
