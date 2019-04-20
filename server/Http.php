@@ -31,7 +31,7 @@ class Http
   
     public function onRequest($request, $response)
 	{
-		$_SERVER = [];
+		//$_SERVER = [];
 		if(isset($request->server))
 		{
 			foreach ($request->server as $key => $value) {
@@ -64,7 +64,7 @@ class Http
 		ob_start();
 
 		try{
-			think\Container::get('app')->run()->send();
+           think\Container::get('app')->run()->send();
 		}catch(\Exception $e){
 
 		}
