@@ -98,15 +98,15 @@
 				//url = "http://singwa.swoole.com:8811?s=index/login&phone_num="+phone_num;
                 url = "http://192.168.23.101:9502?s=Index/Send/index&phone_num="+phone_num;
 				$(this).html('已发送').attr('disabled', true);
-            	$.ajax({url:'http://192.168.23.101:9502?s=Index/Send/index',type: 'get',dataType: 'json', data:{phone_num:phone_num}}).done(function(data){
-					console.log(data);
-					alert(data.msg);
-				});
-             	//$.get('http://192.168.23.101:9502?s=Index/Send/index',{phone_num: phone_num}).done(function(data){
+            	//$.ajax({url:'http://192.168.23.101:9502?s=Index/Send/index',type: 'get',dataType: 'json', data:{phone_num:phone_num}}).done(function(data){
 					//console.log(data);
-					//data = eval( "(" + data + ")" );
-                    //alert(data.msg);
+					//alert(data.msg);
 				//});
+             	$.get('http://192.168.23.101:9502?s=Index/Send/index',{phone_num: phone_num}).done(function(data){
+					console.log(data);
+					data = eval( "(" + data + ")" );
+                    alert(data.msg);
+				});
 				//$.get(url, function (data) {
 					// TODO: 将下面3行代码删除
 					//if (data.status == 'ok') {
@@ -127,11 +127,18 @@
 			$submitBtn.click(function (event) {
 				event.preventDefault();
 				var formData = $('form').serialize();
-				// TODO: 请求后台接口跳转界面，前端跳转或者后台跳
-				$.get("https://www.easy-mock.com/mock/5ab1188bddac7967e4398146/example/query?"+formData, function (data) {
-					console.log("https://www.easy-mock.com/mock/5ab1188bddac7967e4398146/example/query?" + formData);
-					// location.href='index.html';
-				});
+				// TODO: 请求后台接口跳转界面，前端跳转或者后台跳,post提交序列化后的数据是直接$('form').serialize()，而不用{formData:$('form').serialize()}
+                $.post('http://192.168.23.101:9502?s=Index/Login/index',$('form').serialize()).done(function(data){
+                    console.log(data);
+                    data = JSON.parse(data);
+                    alert(data.msg);
+                });
+                // $.get('http://192.168.23.101:9502?s=Index/Login/index',$('form').serialize()).done(function(data){
+                 		//console.log(data);
+                        //data = JSON.parse(data);
+                       // alert(data.msg);
+                // });
+
 			});
 
 			// 返回上一页
