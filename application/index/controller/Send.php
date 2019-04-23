@@ -48,24 +48,32 @@ class Send extends Controller
              return Util::show(config('code.error'),$msg);
 		}
         $code = mt_rand(100000,999999);
-        try{
-            $response = Sms::sendSms($phoneNum, $code);
-            Log::write($response, 'Sms');
-           // return Util::show(config('code.success'), '发送成功');
-        }catch (\Exception $e){
-            return Util::show(config('code.error'), '阿里内部异常');
-        }
-      
-      	if($response->Code == 'OK')
-        {
-            $redis = new \Swoole\Coroutine\Redis();
-            $redis->connect(config('redis.host'),config('redis.port'));
-           // $redis->set('sms_'.$phoneNum, $code);
-            $redis->set(Redis::smsKey($phoneNum), $code, config('redis.out_time'));
-            return Util::show(config('code.success'), '发送成功');
-        }else{
-        	return Util::show(config('code.error'), '发送失败');
-        }
+        
+        $taskData = [
+            'method' => 'sendSms',
+            'data'   => [
+				'phone' => $phoneNum,
+				'code'  => $code,
+            ]
+		];
+        $_POST['http_server']->task($taskData);
+        return Util::show(config('code.success'), '已发送');
+        //try{
+            //$response = Sms::sendSms($phoneNum, $code);
+           // Log::write($response, 'Sms');
+       // }catch (\Exception $e){
+           // return Util::show(config('code.error'), '阿里内部异常');
+       // }
+        
+      	// if($response->Code == 'OK')
+  //       {
+  //           $redis = new \Swoole\Coroutine\Redis();
+  //           $redis->connect(config('redis.host'),config('redis.port'));
+  //           $redis->set(Redis::smsKey($phoneNum), $code, config('redis.out_time'));
+  //           return Util::show(config('code.success'), '发送成功');
+  //       }else{
+  //       	return Util::show(config('code.error'), '发送失败');
+  //       }
 	}
   
 

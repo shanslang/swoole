@@ -27,6 +27,7 @@ class Http
 	{
 		define('APP_PATH', __DIR__.'/../application/');
 		require __DIR__.'/../thinkphp/base.php';
+        App::run()->send();
 	}
   
     public function onRequest($request, $response)
@@ -60,6 +61,7 @@ class Http
 				$_POST[$key] = $value;
 			}
 		}
+        $_POST['http_server'] = $this->http;
 
 		ob_start();
 
@@ -76,9 +78,18 @@ class Http
   
     public function onTask($serv, $taskId, $workerId, $data)
 	{
-		print_r($data);
-		sleep(10);
-		return 'tasks executed';
+		//$obj = new app\common\lib\ali\Sms();
+		//try{
+			//$response = $obj::sendSms($data['phone'], $data['code']);
+		//}catch(\Exception $e){
+			//echo $e->getMessage();
+		//}
+        
+        $obj = new app\common\lib\task\Task;
+        $method = $data['method'];
+        $flag = $obj->$method($data['data']);
+       echo $flag.'taskhhhhh'.PHP_EOL;
+		return $flag;
 	}
   
     public function onFinish($serv, $taskid, $data)

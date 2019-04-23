@@ -5,8 +5,8 @@ class Index
 {
     public function index()
     {
-        dump($_GET);
-        return 'leaf'.PHP_EOL;
+        //dump($_GET);
+        return '';
     }
   
     public function hh()
