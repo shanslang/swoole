@@ -55,6 +55,14 @@ class Ws
 				$_GET[$key] = $value;
 			}
 		}
+      
+       // $_FILES = [];
+		if(isset($request->files))
+		{
+			foreach ($request->files as $key => $value) {
+				$_FILES[$key] = $value;
+			}
+		}
 
 		$_POST = [];
 		if(isset($request->post))
