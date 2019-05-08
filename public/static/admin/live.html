@@ -99,10 +99,10 @@
         auto: true,
 
         // swf文件路径
-        swf:  'http://192.168.23.101:9502/webuploader/Uploader.swf',
+        swf:  'http://192.168.0.138:9502/webuploader/Uploader.swf',
 
         // 文件接收服务端。
-        server: 'http://192.168.23.101:9502/?s=admin/image/index',
+        server: 'http://192.168.0.138:9502/?s=admin/image/index',
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -190,13 +190,16 @@
           event.preventDefault();
           var formData = $('form').serialize();
           // TODO: 请求后台接口跳转界面，前端跳转或者后台跳
-          $.get('http://192.168.23.101:9502?s=admin/Image/index',$('form').serialize()).done(function(data){
-                    console.log(data);
+         // $.get('http://192.168.0.138:9502?s=admin/live/push',$('form').serialize()).done(function(data){
+                   // console.log(data);
                  // data = JSON.parse(data);
-                    data = eval( "(" + data + ")" );
-                    alert(data.msg);
-          });
-        //$.get("http:/192.168.23.101:9502?s=admin/Image/index&" + formData, function (data) {
+                    //data = eval( "(" + data + ")" );
+                   // alert(data);
+        //  });
+          $.get("http://192.168.0.138:9502?s=admin/live/push&"+formData, function(data){
+              console.log(data);
+          }, 'json');
+        //$.get("http://192.168.23.101:9502?s=admin/Image/index&" + formData, function (data) {
 			//console.log(data);
            // if (data.status == 1) {
                 // alert(data.message);

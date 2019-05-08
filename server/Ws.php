@@ -8,6 +8,8 @@ class Ws
 	public $ws = null;
 	public function __construct()
 	{
+      	//  删除redis的fd
+      //删除代码
 		$this->ws = new Server(self::HOST, self::PORT);
 		$this->ws->set([
 			'worker_num'			=> 4,
@@ -110,6 +112,7 @@ class Ws
     
     public function onOpen($ws, $request)
     {
+      	\app\common\lib\redis\Predis::getInstance()->sAdd(config('redis.live_game_key'), $request->fd);
     	var_dump($request->fd);
     }
   
@@ -121,6 +124,7 @@ class Ws
   
     public function onClose($server, $fd)
 	{
+        \app\common\lib\redis\Predis::getInstance()->sRem(config('redis.live_game_key'), $fd);
 		echo "clientid:{$fd}\n";
 	}
 }
