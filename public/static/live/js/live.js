@@ -1,4 +1,4 @@
-var wsUrl = "ws://192.168.0.138:9502";
+var wsUrl = "ws://192.168.23.130:9502";
 var websocket = new WebSocket(wsUrl);
 
 websocket.onopen = function(evt) {

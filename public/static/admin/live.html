@@ -99,10 +99,10 @@
         auto: true,
 
         // swf文件路径
-        swf:  'http://192.168.0.138:9502/webuploader/Uploader.swf',
+        swf:  'http://192.168.23.130:9502/webuploader/Uploader.swf',
 
         // 文件接收服务端。
-        server: 'http://192.168.0.138:9502/?s=admin/image/index',
+        server: 'http://192.168.23.130:9502/?s=admin/image/index',
 
         // 选择文件的按钮。可选。
         // 内部根据当前运行是创建，可能是input元素，也可能是flash.
@@ -196,7 +196,7 @@
                     //data = eval( "(" + data + ")" );
                    // alert(data);
         //  });
-          $.get("http://192.168.0.138:9502?s=admin/live/push&"+formData, function(data){
+          $.get("http://192.168.23.130:9502?s=admin/live/push&"+formData, function(data){
               console.log(data);
           }, 'json');
         //$.get("http://192.168.23.101:9502?s=admin/Image/index&" + formData, function (data) {
