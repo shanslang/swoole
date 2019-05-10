@@ -10,7 +10,7 @@ use app\common\lib\Redis;
 
 class Task extends Controller
 {
-	public function sendSms($data)
+	public function sendSms($data, $serv)
 	{
 		try{
 			$response = Sms::sendSms($data['phone'], $data['code']);
@@ -28,4 +28,11 @@ class Task extends Controller
 		}
 		return true;
 	}
+  
+    public function pushLive($data, $serv){
+      $clients = Predis::getInstance()->sMembers(config("redis.live_game_key"));
+      foreach($clients as $fd){
+          $serv->push($fd, json_encode($data));
+      }
+  }
 }

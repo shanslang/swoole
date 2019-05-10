@@ -196,9 +196,27 @@
                     //data = eval( "(" + data + ")" );
                    // alert(data);
         //  });
-          $.get("http://192.168.23.130:9502?s=admin/live/push&"+formData, function(data){
-              console.log(data);
-          }, 'json');
+         // $.get("http://192.168.23.130:9502?s=admin/live/push&"+formData, function(data){
+            //  console.log(data);
+          //}, 'json');
+          $.ajax({
+          		type: "GET",//方法类型
+                dataType: "json",//预期服务器返回的数据类型
+                url: "http://192.168.23.130:9502?s=admin/live/push&"+formData ,
+                data: {},
+				success: function (data) {
+                	console.log(data);
+                },
+            	error : function(XMLHttpRequest, textStatus, errorThrown) {
+                    // alert("异常！");
+                    // 状态码
+                    console.log(XMLHttpRequest.status);
+                    // 状态
+                    console.log(XMLHttpRequest.readyState);
+                    // 错误信息   
+                    console.log(textStatus);
+                }
+          });
         //$.get("http://192.168.23.101:9502?s=admin/Image/index&" + formData, function (data) {
 			//console.log(data);
            // if (data.status == 1) {

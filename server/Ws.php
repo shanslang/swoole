@@ -99,7 +99,7 @@ class Ws
         
         $obj = new app\common\lib\task\Task;
         $method = $data['method'];
-        $flag = $obj->$method($data['data']);
+        $flag = $obj->$method($data['data'], $serv);
        echo $flag.'taskhhhhh'.PHP_EOL;
 		return $flag;
 	}
@@ -119,7 +119,7 @@ class Ws
     public function onMessage($ws, $frame)
     {
     	echo "ser-push-msg:{$frame->data}\n";
-        $ws->push($frame->fd, "serverpush:".date('Y-m-d H:i:s'));
+       // $ws->push($frame->fd, "serverpush:".date('Y-m-d H:i:s'));
     }
   
     public function onClose($server, $fd)
