@@ -2,7 +2,7 @@ var wsUrl = "ws://192.168.23.130:9502";
 var websocket = new WebSocket(wsUrl);
 
 websocket.onopen = function(evt) {
-    websocket.send("hello-hh");
+    //websocket.send("hello-hh");
 	console.log('conected-swoole-success');
 }
 
@@ -24,12 +24,15 @@ function push(data){
     //data = eval(data);
   	html = '<div class="frame">';
   	html += '<h3 class="frame-header">';
-	html += '<i class="icon iconfont icon-shijian"></i>第9节 01：30';
+	html += '<i class="icon iconfont icon-shijian"></i>第'+data.type+'节 01：30';
   	html += '</h3>';
 	html += '<div class="frame-item">';
 	html += '<span class="frame-dot"></span>';
 	html +=	'<div class="frame-item-author">';
-	html += '<img src="./imgs/team1.png" width="20px" height="20px" />';
+  	if(data.log){
+    	html += '<img src="'+data.logo+'" width="20px" height="20px" />';
+    }
+	
   	html += data.title;
 	html += '</div>';
 	html += '<p>'+data.content+'</p>';

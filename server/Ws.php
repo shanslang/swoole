@@ -4,6 +4,7 @@ class Ws
 {
 	CONST HOST = '0.0.0.0';
 	CONST PORT = 9502;
+    CONST CHART_PORT = 9503;
 
 	public $ws = null;
 	public function __construct()
@@ -11,6 +12,7 @@ class Ws
       	//  删除redis的fd
       //删除代码
 		$this->ws = new Server(self::HOST, self::PORT);
+        $this->ws->listen(self::HOST, self::CHART_PORT, SWOOLE_SOCK_TCP);
 		$this->ws->set([
 			'worker_num'			=> 4,
 			'task_worker_num'		=> 4,
@@ -112,6 +114,7 @@ class Ws
     
     public function onOpen($ws, $request)
     {
+       //print_r($ws);
       	\app\common\lib\redis\Predis::getInstance()->sAdd(config('redis.live_game_key'), $request->fd);
     	var_dump($request->fd);
     }
