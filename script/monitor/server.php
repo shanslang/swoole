@@ -9,13 +9,20 @@ class Server
        // $shell = "netstat -anp | grep ".self::PORT;
         $shell = "netstat -anp | grep ".self::PORT." | grep LISTEN | wc -l";
         $result = shell_exec($shell);
-        if($result = 0){
+        if($result != 1){
         	//  就发短信等
+           echo date('Ymd H:i:s').'error'.PHP_EOL.$result;
         }else{
         	//  正常就记录日志
+          echo date('Ymd H:i:s').'success'.PHP_EOL.$result;
         }
         // echo $result;
     }
 }
 
-(new Server())->port();
+//(new Server())->port();
+
+swoole_timer_tick(2000, function($timer_id){
+	(new Server())->port();
+  	echo "time-start".PHP_EOL;
+});

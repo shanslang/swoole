@@ -19,6 +19,8 @@ class Ws
 			'enable_static_handler'	=> true,
 			'document_root'			=> '/www/wwwroot/swooletp5/public/static',
 		]);
+      
+        $this->ws->on('start', [$this, 'onStart']);
       	$this->ws->on('open', [$this, 'onOpen']);
 		$this->ws->on('message', [$this, 'onMessage']);
 		$this->ws->on('workerstart', [$this, 'onWorkerStart']);
@@ -29,6 +31,11 @@ class Ws
 		$this->ws->start(); 
 	}
   
+    public function onStart($server)
+    {
+    	swoole_set_process_name('live_master');  // 修改进程名
+    }
+  
     public function onWorkerStart($server, $worker_id)
 	{
 		define('APP_PATH', __DIR__.'/../application/');
@@ -38,6 +45,14 @@ class Ws
   
     public function onRequest($request, $response)
 	{
+        //print_r($request->server);  // 会打印出两条请求信息
+      	if($request->server['request_uri'] == '/favicon.ico')
+        {
+        	$response->status(404);
+            $response->end();
+            return;
+        }
+      
 		//$_SERVER = [];
 		if(isset($request->server))
 		{
@@ -75,6 +90,7 @@ class Ws
 				$_POST[$key] = $value;
 			}
 		}
+        $this->writeLog();
         $_POST['http_server'] = $this->ws;
 
 		ob_start();
@@ -130,6 +146,21 @@ class Ws
         \app\common\lib\redis\Predis::getInstance()->sRem(config('redis.live_game_key'), $fd);
 		echo "clientid:{$fd}\n";
 	}
+  
+    public function writeLog()
+    {
+    	$datas = array_merge(['date' => date('Ymd H:i:s')], $_GET, $_POST);
+        $logs = "";
+        foreach($datas as $key => $value)
+        {
+          	$logs .= $key . ':' . $value." ";
+            //echo $value;
+        }
+        //echo $logs;
+        swoole_async_writefile(APP_PATH.'../runtime/log/'.date('Ym')."/".date("d")."_access.log", $logs.PHP_EOL, function($filename){
+        	
+        }, FILE_APPEND);
+    }
 }
 
 new Ws();
