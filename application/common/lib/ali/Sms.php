@@ -80,7 +80,7 @@ class Sms
         $request->setPhoneNumbers($mobile);
 
         // 必填，设置签名名称，应严格按"签名名称"填写，请参考: https://dysms.console.aliyun.com/dysms.htm#/develop/sign
-        $request->setSignName("牛仔绑定手机验证码");
+        $request->setSignName("手机验证码");
 
         // 必填，设置模板CODE，应严格按"模板CODE"填写, 请参考: https://dysms.console.aliyun.com/dysms.htm#/develop/template
         $request->setTemplateCode("SMS_140737087");
